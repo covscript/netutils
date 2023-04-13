@@ -1,0 +1,11 @@
+{
+    "Type": "Package",
+    "Name": "netutils",
+    "Info": "Network Utilities",
+    "Author": "CovScript Organization",
+    "Version": "1.0.0",
+    "Target": "build/imports/netutils.csp",
+    "Dependencies": [
+        "network"
+    ]
+}

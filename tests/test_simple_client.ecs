@@ -1,0 +1,10 @@
+import netutils
+loop
+    var data = to_string(math.randint(1000000000, 9999999999))
+    system.out.println(data)
+    var response = netutils.http_post("http://127.0.0.1:8080/test", data)
+    if response != data
+        system.out.println("ERROR: " + response)
+    end
+    runtime.delay(100)
+end
