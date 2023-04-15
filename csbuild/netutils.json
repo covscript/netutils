@@ -6,6 +6,8 @@
     "Version": "1.0.0",
     "Target": "build/imports/netutils.csp",
     "Dependencies": [
-        "network"
+        "network",
+        "regex",
+        "curl"
     ]
 }
