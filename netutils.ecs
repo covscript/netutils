@@ -108,7 +108,7 @@ end
 
 function wait_sock(sock, size)
     while sock.available() < size
-        context.yield()
+        runtime.yield()
     end
 end
 
@@ -117,13 +117,13 @@ function worker_main(self)
     loop
         # Accept new connection
         while self->server->ac_lock
-            context.yield()
+            runtime.yield()
         end
         self->server->ac_lock = true
         var sock = new tcp.socket
-        context.await_s(sock.accept, {self->server->ac})
+        runtime.await_s(sock.accept, {self->server->ac})
         self->server->ac_lock = false
-        context.yield()
+        runtime.yield()
         # Process request
         var header = new array
         var buffer = new string
@@ -181,7 +181,7 @@ function worker_main(self)
             url_map["404"](session, data)
         end
         sock.close()
-        context.yield()
+        runtime.yield()
     end
 end
 
@@ -284,13 +284,13 @@ class http_server
         foreach it in range(worker_count)
             var worker = gcnew worker_type
             worker->server = &this
-            worker->co = context.create_co_s(worker_main, {worker})
-            context.resume(worker->co)
+            worker->co = runtime.create_co_s(worker_main, {worker})
+            runtime.resume(worker->co)
             worker_list.push_back(worker)
         end
         loop
             foreach worker in worker_list
-                context.resume(worker->co)
+                runtime.resume(worker->co)
             end
         end
     end
